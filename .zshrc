@@ -6,7 +6,9 @@ compinit -C;
 . ~/.zsh_antibody_plugins;
 
 # Config
+export DISABLE_AUTO_TITLE="true"
 export COMPLETION_WAITING_DOTS="true"
+export EDITOR="code"
 setopt interactivecomments
 
 # After-hook

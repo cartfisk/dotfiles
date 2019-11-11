@@ -10,6 +10,7 @@ robbyrussell/oh-my-zsh path:lib/directories.zsh
 robbyrussell/oh-my-zsh path:lib/functions.zsh
 # Git support for theming etc
 robbyrussell/oh-my-zsh path:lib/git.zsh
+robbyrussell/oh-my-zsh path:plugins/git
 # Grep alias with color and ignores vc. Assume modern grep.
 SalomonSmeke/oh-my-zsh path:lib/grep.zsh
 # ZSH History
@@ -33,11 +34,14 @@ zpm-zsh/colorize
 # Completion
 robbyrussell/oh-my-zsh path:plugins/gitfast
 
+# Python
+robbyrussell/oh-my-zsh path:plugins/virtualenv
+
 # Human
 MichaelAquilina/zsh-you-should-use
 
 # Theme
-robbyrussell/oh-my-zsh path:themes/theunraveler.zsh-theme
+cartfisk/vluzsh-theme path:vluzsh.zsh-theme
 
 # Neat
 robbyrussell/oh-my-zsh path:plugins/wd

@@ -3,17 +3,22 @@
 # Constants
 PATH_TO_DOTFILES=$(pwd);
 TARGET_DIR="$HOME";
-FNAMES_TO_SYMLINK=(
+HOSTNAME=$(hostname -f)
+SYMLINK_SOURCE_FNAMES=(
 ".zshrc"
-".gitconfig"
-".tmux.conf"
+"local/$HOSTNAME/.zshrc_local_after"
+"local/$HOSTNAME/.gitconfig"
+);
+SYMLINK_TARGET_FNAMES=(
+"$TARGET_DIR/.zshrc"
+"$TARGET_DIR/.zshrc_local_after"
+"$TARGET_DIR/.gitconfig"
 );
 ANTIBODY_PLUGIN_LIST_PATH="$PATH_TO_DOTFILES/.zsh_antibody_plugins.txt";
 TARGET_ANTIBODY_PATH="$TARGET_DIR/.zsh_antibody_plugins";
 
-
 BREW_INSTALLS="ack bat exa htop python sl tmux vim asciinema nvm tree grep";
-BREW_CASK_INSTALLS="atom firefox imageoptim onyx vlc";
+BREW_CASK_INSTALLS="visula-studio-code imageoptim onyx";
 MACOS_OLD_VERSIONS="zsh grep vim";
 
 ACTIONS=("symlink" "macos" "chsh-zsh" "antibody-update" "brew-packages" "cancel");
@@ -80,7 +85,7 @@ brew-packages()
 
 print-help()
 {
-  printf "\nSalomon Smeke Dotfiles Setup\n";
+  printf "\nDotfiles Setup\n";
   printf "\nCommands:\n";
   i=0;
   for opt in "${ACTIONS[@]}"; do
@@ -94,13 +99,15 @@ symlink-all()
 {
   printf "Symlinking...\n";
   pushd ${TARGET_DIR} >/dev/null;
-  for opt in "${FNAMES_TO_SYMLINK[@]}"; do
-    printf "\t%s" "${opt}";
+  index=0
+  for opt in "${SYMLINK_SOURCE_FNAMES[@]}"; do
+    printf "\t$s" "$opt";
     if [ -f "$TARGET_DIR/$opt" ] ; then
       printf "\n\tFound! Not Overriding...";
     else
-      ln -s "$PATH_TO_DOTFILES/$opt";
+      ln -s "$PATH_TO_DOTFILES/$opt" "${SYMLINK_TARGET_FNAMES[index]}";
     fi
+    index=$((index + 1))
     printf "\n";
   done
   popd >/dev/null;
