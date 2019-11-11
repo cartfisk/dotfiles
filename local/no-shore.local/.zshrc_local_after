@@ -26,7 +26,7 @@ alias notes="code ~/development/notes.code-workspace"
 alias voxcel="voxa && cd server && celery -A celery_main.celery worker -Q celery --concurrency=4 -l Debug"
 alias voxc2l="vox2 && cd server && celery -A celery_main.celery worker -Q celery --concurrency=4 -l Debug"
 
-alias load_node="loadnvm_no_completions && nvm use 10"
+alias load_node="loadnvm_no_completions && nvm use 10.16"
 
 alias voxnode="vox && load_node"
 alias voxanode="voxa && load_node"
