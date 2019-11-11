@@ -17,8 +17,8 @@ SYMLINK_TARGET_FNAMES=(
 ANTIBODY_PLUGIN_LIST_PATH="$PATH_TO_DOTFILES/.zsh_antibody_plugins.txt";
 TARGET_ANTIBODY_PATH="$TARGET_DIR/.zsh_antibody_plugins";
 
-BREW_INSTALLS="ack bat exa htop python sl tmux vim asciinema nvm tree grep";
-BREW_CASK_INSTALLS="visula-studio-code imageoptim onyx";
+BREW_INSTALLS=$(<$PATH_TO_DOTFILES/brew/brew-installs.txt | tr '\n' ' ')
+BREW_CASK_INSTALLS=$(<$PATH_TO_DOTFILES/brew/brew-cask-installs.txt | tr '\n' ' ')
 MACOS_OLD_VERSIONS="zsh grep vim";
 
 ACTIONS=("symlink" "macos" "chsh-zsh" "antibody-update" "brew-packages" "cancel");
@@ -30,6 +30,26 @@ DESCRIPTIONS=(
 "Install some nice brew packages (cask and regular)."
 "No-op."
 );
+
+# Colors
+RESTORE=$(echo -en '\033[00m')
+RED=$(echo -en '\033[00;31m')
+GREEN=$(echo -en '\033[00;32m')
+YELLOW=$(echo -en '\033[00;33m')
+BLUE=$(echo -en '\033[00;34m')
+MAGENTA=$(echo -en '\033[00;35m')
+PURPLE=$(echo -en '\033[00;35m')
+CYAN=$(echo -en '\033[00;36m')
+LIGHTGRAY=$(echo -en '\033[00;37m')
+DARKGRAY=$(echo -en '\033[00;90m')
+LRED=$(echo -en '\033[01;31m')
+LGREEN=$(echo -en '\033[00;32m')
+LYELLOW=$(echo -en '\033[01;33m')
+LBLUE=$(echo -en '\033[01;34m')
+LMAGENTA=$(echo -en '\033[01;35m')
+LPURPLE=$(echo -en '\033[01;35m')
+LCYAN=$(echo -en '\033[01;36m')
+WHITE=$(echo -en '\033[01;37m')
 
 # Actions
 
@@ -43,12 +63,54 @@ symlink()
   exit 0;
 }
 
+GUIDED_SETUP_ACTIONS=(
+"macos-prerequisites"
+"symlink-all"
+"antibody-self-update"
+"set-zsh-default"
+"brew-guided"
+);
+GUIDED_SETUP_DESCRIPTIONS=(
+"Install macOS pre-requisites?"
+"symlink dotfiles?"
+"Initialize/update antibody configuration?"
+"Set zsh as default shell?"
+"Install brew packages?"
+);
+
 macos()
 {
-  macos-prerequisites;
-  symlink-all;
-  antibody-self-update;
-  set-zsh-default;
+  if $1 ; then
+    macos-prerequisites;
+    symlink-all;
+    antibody-self-update;
+    set-zsh-default;
+  else
+    step_index=0
+    echo -e "*** ${YELLOW}GUIDED SETUP${RESTORE} ***"
+    for step in "${GUIDED_SETUP_ACTIONS[@]}"; do
+      echo -e "${GREEN}${GUIDED_SETUP_DESCRIPTIONS[step_index]}${RESTORE}"
+      select yn in "Yes" "No"; do
+        case $yn in
+          Yes ) $step && break;;
+          No ) break;;
+        esac
+      done
+      step_index=$((step_index + 1));
+      printf "\n";
+    done
+
+    echo -e "\n${DARKGRAY}To load new configuration, run:${RESTORE}"
+    echo -e "${GREEN}\`source $HOME/.zshrc\`${RESTORE}"
+    echo -e "${YELLOW}Copy to clipboard?${RESTORE}"
+    select yn in "Yes" "No"; do
+      case $yn in
+        Yes ) echo "source $HOME/.zshrc" | pbcopy; break;;
+        No ) break;;
+      esac
+    done
+
+  fi
   exit 0;
 }
 
@@ -71,6 +133,12 @@ antibody-update()
 cancel()
 {
   exit 0;
+}
+
+brew-guided()
+{
+  brew-install;
+  brew-cask-install;
 }
 
 brew-packages()
@@ -208,12 +276,12 @@ antibody-self-update()
 
 brew-install()
 {
-  brew install $BREW_INSTALLS;
+  xargs brew install < $PATH_TO_DOTFILES/brew/brew-installs.txt;
 }
 
 brew-cask-install()
 {
-  brew cask install $BREW_CASK_INSTALLS;
+  xargs brew cask install < $PATH_TO_DOTFILES/brew/brew-cask-installs.txt;
 }
 
 # Entry
@@ -222,20 +290,38 @@ set -e
 
 main()
 {
-  if [ "$1" == "help" ]; then
+  noconfirm=false
+  argument=$1
+
+  while getopts ':fh' option; do
+    case "$option" in
+      h) print-help;
+        cancel;
+        ;;
+      f) noconfirm=true
+        argument="$2"
+        ;;
+    \?) printf "illegal option: -%s\n\n" "$OPTARG" >&2
+        echo "$usage" >&2
+        exit 1
+        ;;
+    esac
+  done
+
+  if [ "$argument" == "help" ]; then
     print-help;
     cancel;
-  elif [ "$1" == "symlink" ]; then
+  elif [ "$argument" == "symlink" ]; then
     symlink;
-  elif [ "$1" == "macos" ]; then
-    macos;
-  elif [ "$1" == "chsh-zsh" ]; then
+  elif [ "$argument" == "macos" ]; then
+    macos $noconfirm;
+  elif [ "$argument" == "chsh-zsh" ]; then
     chsh-zsh;
-  elif [ "$1" == "antibody-update" ]; then
+  elif [ "$argument" == "antibody-update" ]; then
     antibody-update;
-  elif [ "$1" == "brew-packages" ]; then
+  elif [ "$argument" == "brew-packages" ]; then
     brew-packages;
-  elif [ "$1" == "cancel" ]; then
+  elif [ "$argument" == "cancel" ]; then
     cancel;
   else
     print-help;
