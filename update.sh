@@ -1,14 +1,6 @@
 #!/bin/bash
 
 # Constants
-PATH_TO_DOTFILES=$(pwd);
-HOSTNAME=$(hostname -f);
-
-ACTIONS=("brew" "push");
-DESCRIPTIONS=(
-"Regenerate lists of installed brew packages for this machine? ${DARKGREY}($HOSTNAME)"
-"Push updates to GitHub?"
-);
 
 # Colors
 RESTORE=$(echo -en '\033[00m')
@@ -30,13 +22,21 @@ LPURPLE=$(echo -en '\033[01;35m')
 LCYAN=$(echo -en '\033[01;36m')
 WHITE=$(echo -en '\033[01;37m')
 
+PATH_TO_DOTFILES=$(pwd);
+HOSTNAME=$(hostname -f);
+
+ACTIONS=("brew_update" "push_update");
+DESCRIPTIONS=(
+"Regenerate lists of installed brew packages for this machine? ${DARKGREY}(${HOSTNAME})"
+"Push updates to GitHub?"
+);
+
 # Actions
 update()
 {
   if $1 ; then
-    brew;
-    zsh;
-    push;
+    brew_update;
+    push_update;
   else
     step_index=0
     echo -e "*** ${YELLOW}UPDATE DOTFILES${RESTORE} ***"
@@ -55,23 +55,19 @@ update()
   exit 0;
 }
 
-brew()
+brew_update()
 {
-  brew-list;
-  brew-cask-list;
+  step-runner "brew leaves" "$PATH_TO_DOTFILES/local/$HOSTNAME/brew/brew-list.txt";
+  step-runner "brew cask list" "$PATH_TO_DOTFILES/local/$HOSTNAME/brew/brew-cask-list.txt";
 }
 
-brew-list()
+step-runner()
 {
-  brew list | tee "$PATH_TO_DOTFILES/local/$HOSTNAME/brew/brew-list.txt";
+  echo -e "\n>${LBLUE}\`${1}\`${RESTORE}\n"
+  echo "$($1)" | tee "$2";
 }
 
-brew-cask-list()
-{
-  brew cask list | tee "$PATH_TO_DOTFILES/local/$HOSTNAME/brew/brew-cask-list.txt";
-}
-
-push()
+push_update()
 {
   git add .;
   git commit;
@@ -99,7 +95,7 @@ main()
   done
 
   if [ "$argument" == "brew" ]; then
-    brew;
+    brew_update;
   elif [ "$argument" == "push" ]; then
     push;
   else
