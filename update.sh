@@ -57,8 +57,8 @@ update()
 
 brew_update()
 {
-  step-runner "brew leaves" "$PATH_TO_DOTFILES/local/$HOSTNAME/brew/brew-list.txt";
-  step-runner "brew cask list" "$PATH_TO_DOTFILES/local/$HOSTNAME/brew/brew-cask-list.txt";
+  step-runner "brew leaves" "$PATH_TO_DOTFILES/local/$HOSTNAME/brew/brew-installs.txt";
+  step-runner "brew cask list" "$PATH_TO_DOTFILES/local/$HOSTNAME/brew/brew-cask-installs.txt";
 }
 
 step-runner()

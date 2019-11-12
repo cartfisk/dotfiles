@@ -71,12 +71,13 @@ GUIDED_SETUP_ACTIONS=(
 "brew-guided"
 );
 GUIDED_SETUP_DESCRIPTIONS=(
-"Install macOS pre-requisites?"
-"symlink dotfiles?"
-"Initialize/update antibody configuration?"
-"Set zsh as default shell?"
-"Install brew packages?"
+"🖥          Install macOS pre-requisites?         🖥"
+"🔗                symlink dotfiles?               🔗"
+"🦠    Initialize/update antibody configuration?   🦠"
+"🦞            Set zsh as default shell?           🦞"
+"🍺              Install brew packages?            🍺"
 );
+padding="===================================================="
 
 macos()
 {
@@ -87,9 +88,9 @@ macos()
     set-zsh-default;
   else
     step_index=0
-    echo -e "*** ${YELLOW}GUIDED SETUP${RESTORE} ***"
+    echo -e "*** ${YELLOW}GUIDED SETUP${RESTORE} ***\n"
     for step in "${GUIDED_SETUP_ACTIONS[@]}"; do
-      echo -e "${GREEN}${GUIDED_SETUP_DESCRIPTIONS[step_index]}${RESTORE}"
+      echo -e "${padding}\n${CYAN}${GUIDED_SETUP_DESCRIPTIONS[step_index]}${RESTORE}\n${padding}"
       select yn in "Yes" "No"; do
         case $yn in
           Yes ) $step && break;;
@@ -132,20 +133,6 @@ antibody-update()
 
 cancel()
 {
-  exit 0;
-}
-
-brew-guided()
-{
-  brew-install;
-  brew-cask-install;
-}
-
-brew-packages()
-{
-  macos-prerequisites;
-  brew-install;
-  brew-cask-install;
   exit 0;
 }
 
@@ -276,12 +263,58 @@ antibody-self-update()
 
 brew-install()
 {
-  xargs brew install < $PATH_TO_DOTFILES/brew/brew-installs.txt;
+  xargs brew install < "$1/brew/brew-installs.txt";
 }
 
 brew-cask-install()
 {
-  xargs brew cask install < $PATH_TO_DOTFILES/brew/brew-cask-installs.txt;
+  xargs brew cask install < "$1/brew/brew-cask-installs.txt";
+}
+
+custom_brew_path()
+{
+  brew_step=$1
+  echo -e "${LBLUE}Use an existing machine for $brew_step:${RESTORE}"
+  echo "${YELLOW}$(ls $PATH_TO_DOTFILES/local)${RESTORE}"
+  shopt -s nullglob
+  machine_options=(local/*/)
+  shopt -u nullglob
+  select machine in "${machine_options[@]}"; do
+    for item in "${machine_options[@]}"; do
+      if [[ $item == $machine ]]; then
+        echo "Installing brew packages from $machine"
+        break 2
+      fi
+    done
+  done
+  $brew_step "$PATH_TO_DOTFILES/$machine";
+}
+
+brew-guided()
+{
+  brew_steps=(
+  "brew-install"
+  "brew-cask-install"
+  )
+  for step in "${brew_steps[@]}"; do
+    echo -e "\n${YELLOW}Use defaults for ${LBLUE}$step${YELLOW}?${RESTORE}"
+    select yn in "Yes" "No"; do
+      case $yn in
+        Yes ) $step "$PATH_TO_DOTFILES"; break;;
+        No ) custom_brew_path $step; break;;
+      esac
+    done
+    step_index=$((step_index + 1));
+    printf "\n";
+  done
+}
+
+brew-packages()
+{
+  macos-prerequisites;
+  brew-install;
+  brew-cask-install;
+  exit 0;
 }
 
 # Entry
