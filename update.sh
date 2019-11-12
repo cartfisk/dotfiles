@@ -70,7 +70,7 @@ step-runner()
 push_update()
 {
   git add .;
-  git commit;
+  git commit -m "config update from $HOSTNAME";
   git push origin master --force;
 }
 

@@ -274,8 +274,7 @@ brew-cask-install()
 custom_brew_path()
 {
   brew_step=$1
-  echo -e "${LBLUE}Use an existing machine for $brew_step:${RESTORE}"
-  echo "${YELLOW}$(ls $PATH_TO_DOTFILES/local)${RESTORE}"
+  echo -e "\n${BLUE}Use an existing machine for $brew_step:${RESTORE}"
   shopt -s nullglob
   machine_options=(local/*/)
   shopt -u nullglob
@@ -312,8 +311,7 @@ brew-guided()
 brew-packages()
 {
   macos-prerequisites;
-  brew-install;
-  brew-cask-install;
+  brew-guided;
   exit 0;
 }
 
