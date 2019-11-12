@@ -63,6 +63,8 @@ brew_update()
 
 step-runner()
 {
+  mkdir "$PATH_TO_DOTFILES/local/$HOSTNAME"
+  mkdir "$PATH_TO_DOTFILES/local/$HOSTNAME/brew"
   echo -e "\n>${LBLUE}\`${1}\`${RESTORE}\n"
   echo "$($1)" | tee "$2";
 }

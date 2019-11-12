@@ -10,7 +10,7 @@ export DISABLE_AUTO_TITLE="true"
 export COMPLETION_WAITING_DOTS="true"
 export EDITOR="code"
 setopt interactivecomments
-export update-dotfiles="~/dotfiles/update.sh"
+alias update-dotfiles="~/development/dotfiles/update.sh"
 
 # After-hook
 if [ -f ~/.zshrc_local_after ]; then
