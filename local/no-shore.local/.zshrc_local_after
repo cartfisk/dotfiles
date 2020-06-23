@@ -9,35 +9,29 @@ alias loadnvm="loadnvm_no_completions && [ -s '$NVM_DIR/bash_completion' ] && \.
 #### 4C ####
 ############
 
-export VF2_PROJECT_PATH="~/development/4C/voxsupFrontend2"
-export PYTHON_2_ENVIRONMENT="$VF2_PROJECT_PATH/env2"
+export VF2_PROJECT_PATH="~/development/4C/voxsupFrontend2/services/vf2"
+export VF2_NODE_VERSION="12.16.3"
 # base
 alias vox="cd $VF2_PROJECT_PATH"
 
 alias voxa="vox && source env/bin/activate"
-alias vox2="vox && source env2/bin/activate"
-
 
 alias vf2shell="voxa && python server/manage.py shell"
-alias vf2sh2ll="vox2 && python server/manage.py shell"
-alias vfc="code ~/development/4C/vf2-workspace.code-workspace"
-alias notes="code ~/development/notes.code-workspace"
+alias vfc="code ~/development/4C/vf2-workspace.code-workspace" # open vf2 vscode workspace
+alias notes="code ~/development/notes.code-workspace" # open notes workspace
 
-alias voxcel="voxa && cd server && celery -A celery_main.celery worker -Q celery --concurrency=4 -l Debug"
-alias voxc2l="vox2 && cd server && celery -A celery_main.celery worker -Q celery --concurrency=4 -l Debug"
+alias voxcel="voxa && cd server && celery -A celery_main.celery worker -Q celery --concurrency=4 -l Debug" # run celery
 
-alias load_node="loadnvm_no_completions && nvm use 10.16"
+alias load_node="loadnvm_no_completions && nvm use $VF2_NODE_VERSION" # source vf2 production node version
 
 alias voxnode="vox && load_node"
 alias voxanode="voxa && load_node"
-alias vox2node="vox2 && voxnode"
 
-alias voxbase="$VF2_PROJECT_PATH/tools/debug"
+alias voxbase="$VF2_PROJECT_PATH/tools/debug" # run vf2 local server
 
 alias voxall="voxnode && voxbase"
-alias vox2all="vox2node && EXTS=hot PYTHON_ENVIRONMENT=${PYTHON_2_ENVIRONMENT} voxbase"
 
-# services
+# load only certain services
 alias voxs="voxanode && EXTS=admin,scope,snapchat,reportCenter voxbase"
 alias voxl="voxanode && EXTS=admin,scope,linkedin voxbase"
 alias voxf="voxanode && EXTS=admin,scope,facebook voxbase"
@@ -49,14 +43,17 @@ alias voxcc="voxanode && EXTS=admin,snapchat,facebook,crossChannel,creativeHub, 
 
 # staying up to date
 alias deps="voxa && pip install -r requirements.txt && voxnode && npm install"
-alias d2ps="vox2 && pip install -r requirements.txt && voxnode && npm install"
 alias alemb="voxa && cd db_versioning && alembic upgrade head && cd ../"
-alias vox-alembic-upgrade="alemb"
 
 # misc. 4C
 alias tunnel="cd $VF2_PROJECT_PATH/tools && node tunnel"
 alias release-candy="git checkout release-candy && git fetch upstream && git reset --hard upstream/release-candy"
 alias prod-bugfix="git checkout prod-bugfix && git fetch upstream && git reset --hard upstream/prod-bugfix"
+
+# MySQL
+alias mysqlproc="mysqladmin -u local_user -plocal processlist"
+alias import_auth="mysql -u local_user -plocal auth <"
+alias import_voxsupads="mysql -u local_user -plocal voxsupads <"
 
 #################
 #### General ####
@@ -64,7 +61,7 @@ alias prod-bugfix="git checkout prod-bugfix && git fetch upstream && git reset -
 
 # misc.
 alias chrome="/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --auto-open-devtools-for-tabs"
-alias ll="gls --color=auto --group-directories-first"
+alias la="exa -la --group-directories-first"
 alias gds="git diff --stat"
 
 # macOS
@@ -84,6 +81,9 @@ eval "$(thefuck --alias)"
 export PATH=/usr/local/bin:/usr/local/sbin:~/bin:$PATH
 export VIRTUAL_ENV_DISABLE_PROMPT=0
 export DEFAULT_USER="carterkonz"
+
+alias fwreload="sudo kextunload /System/Library/Extensions/IOFireWireFamily.kext/Contents/PlugIns/AppleFWOHCI.kext/ && sudo kextload /System/Library/Extensions/IOFireWireFamily.kext/Contents/PlugIns/AppleFWOHCI.kext/"
+alias tbreload="sudo kextunload /System/Library/Extensions/AppleThunderboltPCIAdapters.kext && sudo kextload /System/Library/Extensions/AppleThunderboltPCIAdapters.kext"
 
 # Preferred editor for local and remote sessions
 # if [[ -n $SSH_CONNECTION ]]; then

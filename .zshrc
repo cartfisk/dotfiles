@@ -8,7 +8,7 @@ compinit -C;
 # Config
 export DISABLE_AUTO_TITLE="true"
 export COMPLETION_WAITING_DOTS="true"
-export EDITOR="code"
+export EDITOR="vim"
 setopt interactivecomments
 alias update-dotfiles="~/development/dotfiles/update.sh"
 
