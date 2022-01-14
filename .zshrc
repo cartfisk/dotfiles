@@ -1,16 +1,3 @@
-# typeset -F SECONDS
-# autoload -Uz add-zsh-hook
-# add-zsh-hook precmd print_startup_time
-#
-# print_startup_time () {
-#   print -n "Startup time: "
-#   echo $SECONDS
-#
-#   # Clean up.
-#   add-zsh-hook -d precmd print_startup_time
-#   unset startup_timer_module_path
-# }
-
 source ~/.zgenom/sources/init.zsh;
 
 alias grep="grep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn}";
