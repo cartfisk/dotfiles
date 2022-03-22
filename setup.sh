@@ -75,9 +75,23 @@ zsh-plugins()
   zsh -c "
   . ${TARGET_DIR}/.zgenom/zgenom.zsh
 
+  zgenom load ohmyzsh/ohmyzsh lib/theme-and-appearance.zsh
+  zgenom load ohmyzsh/ohmyzsh lib/completion.zsh
+  zgenom load ohmyzsh/ohmyzsh lib/compfix.zsh
+  zgenom load ohmyzsh/ohmyzsh lib/directories.zsh
+  zgenom load ohmyzsh/ohmyzsh lib/history.zsh
+  zgenom load ohmyzsh/ohmyzsh lib/key-bindings.zsh
+  zgenom load ohmyzsh/ohmyzsh lib/termsupport.zsh
   zgenom load ohmyzsh/ohmyzsh plugins/gitfast
+  zgenom load ohmyzsh/ohmyzsh plugins/git
+  zgenom load ohmyzsh/ohmyzsh plugins/brew
+  zgenom load ohmyzsh/ohmyzsh plugins/aliases
+  zgenom load ohmyzsh/ohmyzsh plugins/common-aliases
+  zgenom load ohmyzsh/ohmyzsh plugins/colored-man-pages
   zgenom load mafredri/zsh-async async.zsh
-  zgenom load SalomonSmeke/pure- pure.zsh
+
+  zgenom load cartfisk/pure- pure.zsh
+  
   zgenom load zsh-users/zsh-syntax-highlighting
   zgenom load zpm-zsh/colorize
   zgenom load zsh-users/zsh-autosuggestions
@@ -94,6 +108,9 @@ zsh-plugins()
     echo SHELL_SESSIONS_DISABLE=1 > "$TARGET_DIR/.zshenv"
   fi
 }
+
+  # theme
+
 
 # Entry
 
