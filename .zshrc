@@ -41,4 +41,9 @@ turbo () {
 if [ -f ~/.zshrc_local_after ]; then
   source ~/.zshrc_local_after;
 fi;
+
+# Begin OpenSSL setup lines from vox script
+export PATH="/usr/local/opt/openssl@3/bin:$PATH"
+export PKG_CONFIG_PATH="/usr/local/opt/openssl@3/lib/pkgconfig"
+# End OpenSSL setup lines from vox script
 eval "$(direnv hook zsh)"

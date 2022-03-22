@@ -7,11 +7,14 @@ FNAMES_TO_SYMLINK=(
 ".zshrc"
 ".gitconfig"
 ".tmux.conf"
+".vimrc"
 );
-ACTIONS=("init" "zsh-plugins" "cancel");
+ACTIONS=("init" "zsh-plugins" "iterm" "fonts" "cancel");
 DESCRIPTIONS=(
 "Install dotfiles to $TARGET_DIR."
 "Install or update zsh plugins."
+"Load iTerm2 preferences"
+"Install Fonts"
 "No-op."
 );
 
@@ -109,8 +112,16 @@ zsh-plugins()
   fi
 }
 
-  # theme
+iterm()
+{
+  defaults write com.googlecode.iterm2 PrefsCustomFolder ./iterm
+  defaults write com.googlecode.iterm2 LoadPrefsFromCustomFolder 1
+}
 
+fonts()
+{
+  cp -n ./assets/fonts/**/*.{ttf,otf} ~/Library/Fonts/
+}
 
 # Entry
 
@@ -137,6 +148,10 @@ main()
     init;
   elif [ "$1" == "zsh-plugins" ]; then
     zsh-plugins;
+  elif [ "$1" == "iterm" ]; then
+    iterm;
+  elif [ "$1" == "fonts" ]; then
+    fonts;
   elif [ "$1" == "cancel" ]; then
     cancel;
   else
