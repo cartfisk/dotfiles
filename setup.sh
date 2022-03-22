@@ -93,7 +93,7 @@ zsh-plugins()
   zgenom load ohmyzsh/ohmyzsh plugins/colored-man-pages
   zgenom load mafredri/zsh-async async.zsh
 
-  zgenom load cartfisk/pure- pure.zsh
+  zgenom load /Users/carterkonz/development/pure- pure.zsh
 
   zgenom load zsh-users/zsh-syntax-highlighting
   zgenom load zpm-zsh/colorize
