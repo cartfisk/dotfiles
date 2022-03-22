@@ -1,3 +1,12 @@
+
+#### FIG ENV VARIABLES ####
+# Please make sure this block is at the start of this file.
+[ -s ~/.fig/shell/pre.sh ] && source ~/.fig/shell/pre.sh
+#### END FIG ENV VARIABLES ####
+
+autoload -Uz compinit
+compinit
+
 source ~/.zgenom/sources/init.zsh;
 
 alias grep="grep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn}";
