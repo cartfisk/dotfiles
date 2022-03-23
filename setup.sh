@@ -93,7 +93,7 @@ zsh-plugins()
   zgenom load ohmyzsh/ohmyzsh plugins/colored-man-pages
   zgenom load mafredri/zsh-async async.zsh
 
-  zgenom load /Users/carterkonz/development/pure- pure.zsh
+  zgenom load cartfisk/pure- pure.zsh
 
   zgenom load zsh-users/zsh-syntax-highlighting
   zgenom load zpm-zsh/colorize
@@ -114,7 +114,7 @@ zsh-plugins()
 
 iterm()
 {
-  defaults write com.googlecode.iterm2 PrefsCustomFolder ./iterm
+  defaults write com.googlecode.iterm2 PrefsCustomFolder $PATH_TO_DOTFILES/iterm
   defaults write com.googlecode.iterm2 LoadPrefsFromCustomFolder 1
 }
 
