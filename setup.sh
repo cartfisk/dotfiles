@@ -114,7 +114,7 @@ zsh-plugins()
 
 fonts()
 {
-  cp -n ./assets/fonts/**/*.{ttf,otf} ~/Library/Fonts/
+  cp -n assets/fonts/**/*.{ttf,otf} ~/Library/Fonts/
 }
 
 # Entry
