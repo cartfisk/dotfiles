@@ -14,15 +14,6 @@ bindkey '^[[B' history-substring-search-down;
 bindkey '^[[A' history-substring-search-up;
 HISTORY_SUBSTRING_SEARCH_PREFIXED="1";
 
-# Ctrl+r config for fzf
-if type rg &> /dev/null; then
-  export FZF_DEFAULT_COMMAND="rg --files";
-  export FZF_DEFAULT_OPTS="-m";
-fi
-
-# Run the previous command as sudo, thanks gh:cdfuller!
-alias pls='sudo $(fc -nl -1)';
-
 turbo () {
   zcompile ~/.zcompdump;
   zcompile ~/.zshrc;
@@ -35,9 +26,3 @@ turbo () {
 if [ -f ~/.zshrc_local_after ]; then
   source ~/.zshrc_local_after;
 fi;
-
-# Begin OpenSSL setup lines from vox script
-export PATH="/usr/local/opt/openssl@3/bin:$PATH"
-export PKG_CONFIG_PATH="/usr/local/opt/openssl@3/lib/pkgconfig"
-# End OpenSSL setup lines from vox script
-eval "$(direnv hook zsh)"
