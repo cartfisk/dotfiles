@@ -1,31 +1,35 @@
-############
-#### 4C ####
-############
-alias pipup="pip install --upgrade pip"
+######################
+#### pure- Colors ####
+######################
+# https://www.ditig.com/256-colors-cheat-sheet
+zstyle :prompt:pure:prompt:success color 010
+zstyle :prompt:pure:prompt:continuation color 245
+zstyle :prompt:pure:git:branch color 'green'
+# ssh
+zstyle :prompt:pure:host color 105
+zstyle :prompt:pure:prompt:user color 061
 
-export VF2_PROJECT_PATH="~/development/4C/voxsupFrontend2/services/vf2"
-export VF2_NODE_VERSION="12.16.3"
+##############
+#### Work ####
+##############
+export VF2_PROJECT_PATH="~/development/mediaocean/voxsupFrontend2"
 
-alias vox="~/git/voxsupFrontend2/.vox"
-alias vfc="code ~/git/voxsupFrontend2" # open vf2 vscode workspace
+alias vox="$VF2_PROJECT_PATH/.vox"
+alias vfc="code $VF2_PROJECT_PATH/scope.code-workspace" # open vf2 vscode workspace
 
-# misc. 4C
-alias release-candy="git checkout release-candy && git fetch upstream && git reset --hard upstream/release-candy"
-alias prod-bugfix="git checkout prod-bugfix && git fetch upstream && git reset --hard upstream/prod-bugfix"
-
-# MySQL
-alias mysqlproc="mysqladmin -u local_user -plocal processlist"
-alias auth_dump="vox && fab fetch_and_import_dump:db=auth,user_name=local_user,password=local,cleanup=True"
-alias voxsupads_dump="vox && fab fetch_and_import_dump:db=voxsupads,user_name=local_user,password=local,cleanup=True"
+alias vpnc='printf $(op read op://personal/Mediaocean/username)"\n"$(op read op://personal/Mediaocean/password)"\ny" | /opt/cisco/anyconnect/bin/vpn -s connect "Mediaocean VPN-NA"'
+alias vpn="vpnc"
+alias vpnd="/opt/cisco/anyconnect/bin/vpn disconnect"
 
 #################
 #### General ####
 #################
 export HACKINTOSH=$HOME/development/hackintosh/
-alias kc="kubectl"
 
 # misc.
-alias chrome="/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --auto-open-devtools-for-tabs"
+alias pipup="pip install --upgrade pip"
+alias mysqlproc="mysqladmin -u local_user -plocal processlist"
+alias kc="kubectl"
 alias la="exa -la --group-directories-first"
 alias gds="git diff --stat"
 
@@ -33,26 +37,13 @@ alias gds="git diff --stat"
 alias zshrc="code ~/.zshrc_local_after"
 alias srczsh="source ~/.zshrc"
 
+# Homebrew
 export PATH=/usr/local/bin:/usr/local/sbin:~/bin:$PATH
-export VIRTUAL_ENV_DISABLE_PROMPT=0
-export DEFAULT_USER="carterkonz"
-
-alias fwreload="sudo kextunload /System/Library/Extensions/IOFireWireFamily.kext/Contents/PlugIns/AppleFWOHCI.kext/ && sudo kextload /System/Library/Extensions/IOFireWireFamily.kext/Contents/PlugIns/AppleFWOHCI.kext/"
-alias tbreload="sudo kextunload /System/Library/Extensions/AppleThunderboltPCIAdapters.kext && sudo kextload /System/Library/Extensions/AppleThunderboltPCIAdapters.kext"
-
 # VSCode CLI
 export PATH="/Applications/Visual Studio Code.app/Contents/Resources/app/bin:$PATH"
 
-export iterm2_hostname=no-shore
-test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+export VIRTUAL_ENV_DISABLE_PROMPT=0
 
 eval "$(direnv hook zsh)"
 eval "$(thefuck --alias)"
-eval "$(mcfly init zsh)"
-eval "$(zoxide init zsh)"
 eval "$(fnm env --use-on-cd)"
-
-export PYENV_ROOT="$HOME/.pyenv"
-export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init --path)"
-eval "$(pyenv init -)"

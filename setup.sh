@@ -8,12 +8,12 @@ FNAMES_TO_SYMLINK=(
 ".gitconfig"
 ".tmux.conf"
 ".vimrc"
+".wezterm.lua"
 );
-ACTIONS=("init" "zsh-plugins" "iterm" "fonts" "cancel");
+ACTIONS=("init" "zsh-plugins" "fonts" "cancel");
 DESCRIPTIONS=(
 "Install dotfiles to $TARGET_DIR."
 "Install or update zsh plugins."
-"Load iTerm2 preferences"
 "Install Fonts"
 "No-op."
 );
@@ -93,7 +93,7 @@ zsh-plugins()
   zgenom load ohmyzsh/ohmyzsh plugins/colored-man-pages
   zgenom load mafredri/zsh-async async.zsh
 
-  zgenom load cartfisk/pure- pure.zsh
+  zgenom load SalomonSmeke/pure- pure.zsh
 
   zgenom load zsh-users/zsh-syntax-highlighting
   zgenom load zpm-zsh/colorize
@@ -110,12 +110,6 @@ zsh-plugins()
   if [ "$(uname)" == "Darwin" ]; then
     echo SHELL_SESSIONS_DISABLE=1 > "$TARGET_DIR/.zshenv"
   fi
-}
-
-iterm()
-{
-  defaults write com.googlecode.iterm2 PrefsCustomFolder $PATH_TO_DOTFILES/iterm
-  defaults write com.googlecode.iterm2 LoadPrefsFromCustomFolder 1
 }
 
 fonts()
@@ -148,8 +142,6 @@ main()
     init;
   elif [ "$1" == "zsh-plugins" ]; then
     zsh-plugins;
-  elif [ "$1" == "iterm" ]; then
-    iterm;
   elif [ "$1" == "fonts" ]; then
     fonts;
   elif [ "$1" == "cancel" ]; then
