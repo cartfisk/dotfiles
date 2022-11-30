@@ -12,14 +12,19 @@ zstyle :prompt:pure:prompt:user color 061
 ##############
 #### Work ####
 ##############
-export VF2_PROJECT_PATH="~/development/mediaocean/voxsupFrontend2"
+export STEM_PATH="/Users/carterkonz/development/stem"
+export SUNFLOWER_PATH="$STEM_PATH/sunflower"
+export ENSEMBLE_PATH="$STEM_PATH/stem-ensemble"
+export BIN_SUN="$SUNFLOWER_PATH/bin/sun"
 
-alias vox="$VF2_PROJECT_PATH/.vox"
-alias vfc="code $VF2_PROJECT_PATH/scope.code-workspace" # open vf2 vscode workspace
+alias bs="$BIN_SUN"
+alias bsmp="$BIN_SUN ./manage.py"
+alias bsmpm="$BIN_SUN ./manage.py migrate"
+alias bsmpmm="$BIN_SUN ./manage.py makemigrations"
+alias bss="$BIN_SUN ./manage.py shell"
+alias bst="$BIN_SUN pytest --reuse-db"
+alias bsb="$BIN_SUN black"
 
-alias vpnc='printf $(op read op://personal/Mediaocean/username)"\n"$(op read op://personal/Mediaocean/password)"\ny" | /opt/cisco/anyconnect/bin/vpn -s connect "Mediaocean VPN-NA"'
-alias vpn="vpnc"
-alias vpnd="/opt/cisco/anyconnect/bin/vpn disconnect"
 
 #################
 #### General ####
@@ -37,8 +42,6 @@ alias gds="git diff --stat"
 alias zshrc="code ~/.zshrc_local_after"
 alias srczsh="source ~/.zshrc"
 
-# Homebrew
-export PATH=/usr/local/bin:/usr/local/sbin:~/bin:$PATH
 # VSCode CLI
 export PATH="/Applications/Visual Studio Code.app/Contents/Resources/app/bin:$PATH"
 
