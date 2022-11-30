@@ -25,6 +25,9 @@ alias bss="$BIN_SUN ./manage.py shell"
 alias bst="$BIN_SUN pytest --reuse-db"
 alias bsb="$BIN_SUN black"
 
+alias sfc="code /Users/carterkonz/Documents/vscode/sunflower.code-workspace"
+alias sec="code /Users/carterkonz/Documents/vscode/stem-ensemble.code-workspace"
+
 
 #################
 #### General ####
