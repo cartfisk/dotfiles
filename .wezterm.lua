@@ -1,7 +1,7 @@
 local wezterm = require 'wezterm'
 
 
-local font_with_fallback = wezterm.font_with_fallback { 'PragmataPro Liga', 'JetBrains Mono' }
+local font_with_fallback = wezterm.font_with_fallback { 'PragmataPro Mono Liga', 'JetBrains Mono' }
 local light_theme = {
   -- Theme [Modified Zenbones]
   colors = {
@@ -87,6 +87,7 @@ end)
 return {
   -- Remove top bar
   window_decorations = 'RESIZE',
+  scrollback_lines = 10000,
 
   -- Style
   font = font_with_fallback,
@@ -103,7 +104,7 @@ return {
   initial_cols = 110,
 
   -- Bell
-  audible_bell = 'Disabled',
+  audible_bell = 'SystemBeep',
   visual_bell = {
     fade_in_function = 'EaseIn',
     fade_in_duration_ms = 15,
@@ -130,6 +131,64 @@ return {
         wezterm.action.ClearScrollback 'ScrollbackAndViewport',
         wezterm.action.SendKey { key = 'L', mods = 'CTRL' },
       },
+    },
+    {
+      key = 'w',
+      mods = 'CMD',
+      action = wezterm.action.CloseCurrentPane { confirm = true },
+    },
+    -- Split pane bindings
+    {
+      key = 'LeftArrow',
+      mods = 'CTRL|ALT|SHIFT',
+      action = wezterm.action.SplitPane {
+        direction = 'Left',
+        size = { Percent = 50 },
+      },
+    },
+    {
+      key = 'UpArrow',
+      mods = 'CTRL|ALT|SHIFT',
+      action = wezterm.action.SplitPane {
+        direction = 'Up',
+        size = { Percent = 50 },
+      },
+    },
+    {
+      key = 'RightArrow',
+      mods = 'CTRL|ALT|SHIFT',
+      action = wezterm.action.SplitPane {
+        direction = 'Right',
+        size = { Percent = 50 },
+      },
+    },
+    {
+      key = 'DownArrow',
+      mods = 'CTRL|ALT|SHIFT',
+      action = wezterm.action.SplitPane {
+        direction = 'Down',
+        size = { Percent = 50 },
+      },
+    },
+    {
+      key = 'LeftArrow',
+      mods = 'CTRL|SHIFT',
+      action = wezterm.action.ActivatePaneDirection 'Left',
+    },
+    {
+      key = 'RightArrow',
+      mods = 'CTRL|SHIFT',
+      action = wezterm.action.ActivatePaneDirection 'Right',
+    },
+    {
+      key = 'UpArrow',
+      mods = 'CTRL|SHIFT',
+      action = wezterm.action.ActivatePaneDirection 'Up',
+    },
+    {
+      key = 'DownArrow',
+      mods = 'CTRL|SHIFT',
+      action = wezterm.action.ActivatePaneDirection 'Down',
     },
   }
 }
