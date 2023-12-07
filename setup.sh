@@ -78,7 +78,11 @@ zsh-plugins()
   zsh -c "
   . ${TARGET_DIR}/.zgenom/zgenom.zsh
 
+  autoload -Uz compinit
+  compinit
+  
   zgenom load ohmyzsh/ohmyzsh lib/theme-and-appearance.zsh
+  zgenom load ohmyzsh/ohmyzsh lib/functions.zsh
   zgenom load ohmyzsh/ohmyzsh lib/completion.zsh
   zgenom load ohmyzsh/ohmyzsh lib/compfix.zsh
   zgenom load ohmyzsh/ohmyzsh lib/directories.zsh
