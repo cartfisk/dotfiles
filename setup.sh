@@ -86,6 +86,7 @@ zsh-plugins()
   zgenom load ohmyzsh/ohmyzsh lib/completion.zsh
   zgenom load ohmyzsh/ohmyzsh lib/compfix.zsh
   zgenom load ohmyzsh/ohmyzsh lib/directories.zsh
+  zgenom load ohmyzsh/ohmyzsh lib/git.zsh
   zgenom load ohmyzsh/ohmyzsh lib/history.zsh
   zgenom load ohmyzsh/ohmyzsh lib/key-bindings.zsh
   zgenom load ohmyzsh/ohmyzsh lib/termsupport.zsh
