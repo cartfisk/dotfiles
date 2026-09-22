@@ -119,7 +119,15 @@ zsh-plugins()
 
 fonts()
 {
-  cp -n assets/fonts/**/*.{ttf,otf} ~/Library/Fonts/
+  if check-command "brew" ; then
+    brew install --cask font-sf-pro font-sf-mono font-sf-compact;
+  else
+    printf "No Brew found, skipping SF fonts...\n";
+  fi
+
+  printf "Installing fonts to /Library/Fonts, this might require your password.\n";
+  find "$(dirname "$0")/assets/fonts" -type f \( -name '*.ttf' -o -name '*.otf' \) \
+    -exec sudo cp -n {} /Library/Fonts/ \;
 }
 
 # Entry
