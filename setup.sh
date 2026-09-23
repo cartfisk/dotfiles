@@ -10,11 +10,19 @@ FNAMES_TO_SYMLINK=(
 ".vimrc"
 ".wezterm.lua"
 );
-ACTIONS=("init" "zsh-plugins" "fonts" "cancel");
+# User-level agent instruction files, all pointing at CLAUDE.md.
+# Conductor runs the Claude Code and Codex CLIs, so it picks these up too.
+AGENT_INSTRUCTIONS_SOURCE="${AGENT_INSTRUCTIONS_SOURCE:-$TARGET_DIR/Library/Mobile Documents/com~apple~CloudDocs/development/dotfiles/CLAUDE.md}";
+AGENT_INSTRUCTIONS_TARGETS=(
+"${CLAUDE_CONFIG_DIR:-$TARGET_DIR/.claude}/CLAUDE.md"
+"${CODEX_HOME:-$TARGET_DIR/.codex}/AGENTS.md"
+);
+ACTIONS=("init" "zsh-plugins" "fonts" "agents" "cancel");
 DESCRIPTIONS=(
 "Install dotfiles to $TARGET_DIR."
 "Install or update zsh plugins."
 "Install Fonts"
+"Symlink iCloud CLAUDE.md for Claude Code, Codex, and Conductor."
 "No-op."
 );
 
@@ -24,6 +32,7 @@ init()
 {
   zsh-install;
   symlink;
+  agents;
   zsh-plugins;
   exit 0;
 }
@@ -68,6 +77,25 @@ symlink()
     printf "\n";
   done
   popd >/dev/null;
+}
+
+agents()
+{
+  printf "Symlinking agent instructions...\n";
+  if [ ! -f "$AGENT_INSTRUCTIONS_SOURCE" ]; then
+    printf "\tNo file found at %s, skipping...\n" "$AGENT_INSTRUCTIONS_SOURCE";
+    return 0;
+  fi
+  for target in "${AGENT_INSTRUCTIONS_TARGETS[@]}"; do
+    printf "\t%s" "${target}";
+    if [ -f "$target" ] || [ -L "$target" ] ; then
+      printf "\n\tFound! Not Overriding...";
+    else
+      mkdir -p "$(dirname "$target")";
+      ln -s "$AGENT_INSTRUCTIONS_SOURCE" "$target";
+    fi
+    printf "\n";
+  done
 }
 
 zsh-plugins()
@@ -157,6 +185,8 @@ main()
     zsh-plugins;
   elif [ "$1" == "fonts" ]; then
     fonts;
+  elif [ "$1" == "agents" ]; then
+    agents;
   elif [ "$1" == "cancel" ]; then
     cancel;
   else
